@@ -1,0 +1,25 @@
+{
+  "Servers": {
+    "RloginServer": {
+      "Enabled": true,
+      "IpAddress": "0.0.0.0",
+      "Port": 516,
+      "MaxConnections": 50
+    },
+    "HostServer": {
+      "IpAddress": "0.0.0.0",
+      "HostPort": 5112
+    }
+  },
+  "Clients": {
+    "DoorParty": {
+      "SshHost":"dp.throwbackbbs.com",
+      "SshPort": 2022,
+      "ForwardHost" : "dp.throwbackbbs.com",
+      "ForwardPort" : 513,
+      "SshUserName" : "DoorParty_UserName",
+      "SshPassword": "HashedPassword",
+      "SystemTag": "[TAG]"
+    }
+  }
+}
