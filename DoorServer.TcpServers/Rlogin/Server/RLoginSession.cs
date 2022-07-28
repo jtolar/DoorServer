@@ -160,8 +160,11 @@ namespace DoorServer.TcpServers.Rlogin.Server
                     ConnectionInfo.ClientUserName = loginString[1];
                     ConnectionInfo.ServerUserName = loginString[2].Contains(tunnelConfiguration.SystemTag) 
                         ? loginString[2]
-                        : $"[{tunnelConfiguration.SystemTag}]{loginString[2]}";
-                    ConnectionInfo.DoorName = loginString[3].ToLower().Replace("xtrn=", string.Empty);
+                        : $"[{tunnelConfiguration.SystemTag.Replace("[", string.Empty).Replace("]", string.Empty)}]{loginString[2]}";
+                    
+                    //if we uncommented the test mode code above then we don't want to overwrite the door name
+                    if (string.IsNullOrWhiteSpace(ConnectionInfo.DoorName))
+                        ConnectionInfo.DoorName = loginString[3].ToLower().Replace("xtrn=", string.Empty);
 
                     if (loginString.Length > 4)
                     {
