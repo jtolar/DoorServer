@@ -14,53 +14,67 @@ namespace DoorServer.TcpServers.Management
             this.rloginHostedService = rloginHostedService;
         }
 
-        public Task<bool> DisconnectNode(int nodeId)
+        public async Task ToggleServerStartStop()
         {
-            return Task.FromResult(true);
+            if (rloginHostedService != null)
+                if (rloginHostedService.IsEnabled && rloginHostedService.ServerIsRunning)
+                    //await rloginHostedService.StopServer();
+                    await StopRloginServer();
+                else
+                    //await rloginHostedService.StartServer();
+                    await StartRloginServer();
+
+            return;
         }
 
-        public Task LogMessage(LogLevel level, string category, string message)
+        public async Task GetRloginStatus()
         {
-
-            return Task.CompletedTask;
+            await Clients.All.RloginServerStatus(rloginHostedService.ServerIsRunning ? "Started" : "Stopped");
         }
 
-        public async Task GetRloginStatus(ServerType serverType, TcpServerStatus status, TcpServerConfiguration serverConfiguration)
+        public async Task ServerStatusUpdate()
         {
-            //await Clients.All.UpdateServerStatus(serverType, status);
+            var status = $"Rlogin server is ";
+
+            if (rloginHostedService == null || !rloginHostedService.IsEnabled)
+            {
+                status += "disabled.";
+                await Clients.All.ServerStatusUpdate(status);
+                return;
+            }
+
+            status += "enabled. ";
+
+            if (rloginHostedService.ServerIsRunning)
+                status += $"Server is listening on IP {rloginHostedService.ServerConfiguration.IpAddress} port {rloginHostedService.ServerConfiguration.Port}.";
+            else
+                status += "Server is currently offline and not accepting connections.";
+            await Clients.All.ServerStatusUpdate(status);
             return;
         }
 
         public async Task<bool> StartRloginServer()
         {
-            await rloginHostedService.StartAsync(CancellationToken.None);
+            await rloginHostedService.StartServer();
+            await ServerStatusUpdate();
+            await GetRloginStatus();
             return rloginHostedService.ServerIsRunning;
         }
 
         public async Task<bool> StopRloginServer()
         {
-            await rloginHostedService.StopAsync(CancellationToken.None);
+            await rloginHostedService.StopServer();
+            await ServerStatusUpdate();
+            await GetRloginStatus();
+
             return !rloginHostedService.ServerIsRunning;
         }
 
-        public Task UpdateNodeStatus(int NodeId, ServerType serverType, NodeStatus Status, string? NodeDetail)
+        public override async Task OnConnectedAsync()
         {
-            return Task.CompletedTask;
-        }
-
-        public Task OnConnected()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task OnReconnected()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task OnDisconnected(bool stopCalled)
-        {
-            throw new NotImplementedException();
+            await ServerStatusUpdate();
+            await GetRloginStatus();
+            await base.OnConnectedAsync();
         }
     }
 }

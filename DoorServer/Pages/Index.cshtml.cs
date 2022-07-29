@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DoorServer.TcpServers.HostedServices;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DoorServer.Pages
@@ -6,17 +7,16 @@ namespace DoorServer.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> logger;
-        //private readonly RloginHostedService rloginHostedService;
+        private readonly RloginHostedService rloginHostedService;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILogger<IndexModel> logger, RloginHostedService rloginHostedService)
         {
             this.logger = logger;
-            //rloginHostedService = hostedService;
+            this.rloginHostedService = rloginHostedService;
         }
 
         public void OnGet()
-        {
-            logger.LogInformation("Index Page Load.");
+        { 
         }
     }
 }

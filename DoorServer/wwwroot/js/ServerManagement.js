@@ -7,27 +7,33 @@ var connection = new signalR
     .build();
 
 //Disable the send button until connection is established.
-document.getElementById("sendButton").disabled = true;
+document.getElementById("StartStopButton").disabled = true;
 
-connection.on("updateServerStatus", function (user, message) {
-    var li = document.createElement("li");
-    document.getElementById("messagesList").appendChild(li);
+connection.on("ServerStatusUpdate", function (message) {
+    document.getElementById("rloginStatus").textContent = message;
     // We can assign user-supplied strings to an element's textContent because it
     // is not interpreted as markup. If you're assigning in any other way, you 
     // should be aware of possible script injection concerns.
-    li.textContent = `${user} says ${message}`;
+    //li.textContent = `${user} says ${message}`;
 });
 
+connection.on("RloginServerStatus", function (status) {
+    if (status == "Started") {
+        document.getElementById("StartStopButton").textContent = "Stop Server";
+    }
+    else {
+        document.getElementById("StartStopButton").textContent = "Start Server";
+    };
+})
+
 connection.start().then(function () {
-    document.getElementById("sendButton").disabled = false;
+    document.getElementById("StartStopButton").disabled = false;
 }).catch(function (err) {
     return console.error(err.toString());
 });
 
-document.getElementById("sendButton").addEventListener("click", function (event) {
-    var user = document.getElementById("userInput").value;
-    var message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", user, message).catch(function (err) {
+document.getElementById("StartStopButton").addEventListener("click", function (event) {
+    connection.invoke("ToggleServerStartStop").catch(function (err) {
         return console.error(err.toString());
     });
     event.preventDefault();

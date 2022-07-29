@@ -1,8 +1,9 @@
 {
   "Servers": {
+    "NodeCount": 50,
     "RloginServer": {
       "Enabled": true,
-      "RunOnStartup":  true,
+      "RunOnStartup": true,
       "IpAddress": "0.0.0.0",
       "Port": 516,
       "MaxConnections": 50
