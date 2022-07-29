@@ -1,5 +1,4 @@
-﻿using DoorServer.Common.TcpServers.SshTunnel;
-using DoorServer.TcpServers.Rlogin.Server;
+﻿using DoorServer.TcpServers.Rlogin.Server;
 using Renci.SshNet;
 using Renci.SshNet.Common;
 

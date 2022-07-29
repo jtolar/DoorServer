@@ -1,4 +1,4 @@
-﻿namespace DoorServer.Common.TcpServers
+﻿namespace DoorServer.TcpServers
 {
     public interface ILoginServerConfiguration : ITcpServerConfiguration
     {

@@ -1,8 +1,7 @@
-﻿using DoorServer.Common.TcpServers;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Net;
 
-namespace DoorServer.Common
+namespace DoorServer.TcpServers
 {
     public class TcpServerConfiguration : ITcpServerConfiguration
     {
@@ -33,5 +32,8 @@ namespace DoorServer.Common
 
         [JsonProperty("Port")]
         public int Port { get; set; }
+
+        [JsonProperty("RunOnStartup")]
+        public bool RunOnStartup { get; set; }
     }
 }

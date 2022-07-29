@@ -1,5 +1,4 @@
-﻿using DoorServer.Common.TcpServers.Rlogin;
-using DoorServer.Common.TcpServers.SshTunnel;
+﻿using DoorServer.TcpServers.SshTunnel;
 
 namespace DoorServer.TcpServers.Rlogin.Server
 {

@@ -1,5 +1,4 @@
-﻿using DoorServer.Common.TcpServers.SshTunnel;
-using DoorServer.TcpServers.Rlogin.Client;
+﻿using DoorServer.TcpServers.Rlogin.Client;
 using DoorServer.TcpServers.SshTunnel;
 using System.Text;
 
@@ -146,18 +145,21 @@ namespace DoorServer.TcpServers.Rlogin.Server
             try
             {
                 //To Test door mode config from terminal program uncomment this.
-                //if (!rawString.Contains("xtrn"))
-                //{
-                //    ConnectionInfo.DoorName = "lord2";
-                //    ConnectionInfo.IsDoorMode = true;
-                //}
+                if (!rawString.Contains("xtrn"))
+                {
+                    ConnectionInfo.DoorName = "lord2";
+                    ConnectionInfo.IsDoorMode = true;
+                }
 
 
                 var loginString = rawString.Split(char.MinValue, StringSplitOptions.None);
 
                 if (rawString.Contains("xtrn=") || ConnectionInfo.IsDoorMode)
                 {
-                    ConnectionInfo.ClientUserName = loginString[1];
+                    ConnectionInfo.ClientUserName = string.IsNullOrWhiteSpace(loginString[1]) 
+                        ? loginString[2].Replace(tunnelConfiguration.SystemTag, string.Empty)
+                        : loginString[1];
+
                     ConnectionInfo.ServerUserName = loginString[2].Contains(tunnelConfiguration.SystemTag) 
                         ? loginString[2]
                         : $"[{tunnelConfiguration.SystemTag.Replace("[", string.Empty).Replace("]", string.Empty)}]{loginString[2]}";

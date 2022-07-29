@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DoorServer.Common\DoorServer.Common.csproj" />
     <ProjectReference Include="..\DoorServer.TcpServers\DoorServer.TcpServers.csproj" />
   </ItemGroup>
 
@@ -24,6 +25,11 @@
     <None Update="logon_success.ans">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CommunicationHubs\" />
+    <Folder Include="HostedServices\" />
   </ItemGroup>
 
 </Project>

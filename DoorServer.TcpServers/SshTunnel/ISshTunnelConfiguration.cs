@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace DoorServer.Common.TcpServers.SshTunnel
+namespace DoorServer.TcpServers.SshTunnel
 {
     public interface ISshTunnelConfiguration
     {

@@ -1,4 +1,4 @@
-﻿namespace DoorServer.Common.TcpServers.Rlogin
+﻿namespace DoorServer.TcpServers.Rlogin.Server
 {
     public class RloginServerConfiguration : LoginServerConfiguration
     {
